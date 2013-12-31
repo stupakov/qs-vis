@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body {
+  background-color: white;
+}
+
+.axis {
+  fill: black;
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.dot {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="vendor/d3.v3.js"></script>
+<script type="text/javascript" src="vendor/jquery-latest.js"></script>
+<script type="text/javascript" src="vendor/tabletop.js"></script>
+<script type="text/javascript" src="credentials.js"></script>
+<script type="text/javascript" src="personal-data.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
+<button id="authButton" style="visibility: hidden">Authorize</button>
+
+</body>
+</html>
+
