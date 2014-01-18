@@ -2,6 +2,8 @@
 
 ### Features
 - fetches data from google docs spreadsheet
+- allows user to choose a dataset
+- plots graph of chosen dataset (raw data + fit line)
 
 ### TODO
 - multiple independent graphs, each can pick their own dataset
@@ -14,6 +16,7 @@
 - calendar view of data: http://bl.ocks.org/mbostock/4063318
 - can choose filter properties for graph
 - different graph (bar?) for yes/no data
+- add license file
 
 ### Integrations
 - SleepCycle

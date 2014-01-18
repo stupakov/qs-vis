@@ -1,7 +1,8 @@
 var useCachedData = true;
 var allData;
+var fetcher;
 
-var config = {
+var gapiConfig = {
   feed: "list",
   scopes: 'https://spreadsheets.google.com/feeds'
 };
@@ -12,34 +13,17 @@ $(function () {
   }
 });
 
-// Functions for fetching data from google docs
 function handleClientLoad() {
   if(!useCachedData) {
-    gapi.client.setApiKey(credentials.apiKey);
-    window.setTimeout(checkAuth,1);
+    this.fetcher = new datasetFetcher({
+        api: gapi,
+        config: gapiConfig,
+        credentials: credentials,
+        callback: parseSpreadsheetData
+    });
+
+    this.fetcher.fetchDataset();
   }
-}
-
-function checkAuth() {
-    gapi.auth.authorize({client_id: credentials.clientId, scope: config.scopes, immediate: false}, handleAuthResult);
-}
-
-function handleAuthResult(authResult) {
-    var authButton = document.getElementById('authButton');
-    authButton.style.display = 'none';
-    if (authResult && !authResult.error) {
-        loadClient();
-    } else {
-        console.log('failed auth', authResult);
-        authButton.style.display = 'block';
-        authButton.onclick = checkAuth;
-    }
-}
-
-function loadClient() {
-    var token = gapi.auth.getToken().access_token;
-    var feedUrl = "https://spreadsheets.google.com/feeds/" + config.feed + "/" + credentials.key + "/od6/private/full?alt=json&access_token=" + token;
-    $.get(feedUrl, parseSpreadsheetData);
 }
 
 // Parse and process a dataset and create graphs
