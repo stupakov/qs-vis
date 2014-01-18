@@ -21,12 +21,18 @@ body {
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: lightblue;
+  stroke-width: 0.75px;
+}
+
+.redline {
+  fill: none;
+  stroke: red;
   stroke-width: 1.5px;
 }
 
 .dot {
-  fill: white;
+  fill: lightblue;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
@@ -40,10 +46,16 @@ body {
 <script type="text/javascript" src="vendor/tabletop.js"></script>
 <script type="text/javascript" src="credentials.js"></script>
 <script type="text/javascript" src="cached-data.js"></script>
+<script type="text/javascript" src="cached-test-data.js"></script>
 <script type="text/javascript" src="personal-data.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 
+<br/>
 <button id="authButton" style="visibility: hidden">Authorize</button>
+<select id="columns">
+</select>
+
+<div class="graph"></div>
 
 </body>
 </html>
