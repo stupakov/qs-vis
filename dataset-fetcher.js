@@ -2,11 +2,11 @@ function datasetFetcher(options) {
   this.api = options.api;
   this.config = options.config;
   this.credentials = options.credentials;
-  this.callback = options.callback;
 
   var self = this;
 
-  this.fetchDataset = function() {
+  this.fetchDataset = function(callback) {
+    this.callback = callback;
     this.api.client.setApiKey(this.credentials.apiKey);
     window.setTimeout(checkAuth,1);
   };

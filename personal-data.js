@@ -1,76 +1,3 @@
-var useCachedData = true;
-var allData;
-var fetcher;
-
-var gapiConfig = {
-  feed: "list",
-  scopes: 'https://spreadsheets.google.com/feeds'
-};
-
-$(function () {
-  if(useCachedData) {
-    parseSpreadsheetData(cachedData);
-  }
-});
-
-function handleClientLoad() {
-  if(!useCachedData) {
-    this.fetcher = new datasetFetcher({
-        api: gapi,
-        config: gapiConfig,
-        credentials: credentials,
-        callback: parseSpreadsheetData
-    });
-
-    this.fetcher.fetchDataset();
-  }
-}
-
-// Parse and process a dataset and create graphs
-function parseSpreadsheetData(dataset) {
-  var model = new Tabletop.Model( { data: dataset,
-                                    parseNumbers: false,
-                                    postProcess: false,
-                                    tabletop: undefined } );
-
-  // Reformat the data
-  allData = model.elements.map(function(element) {
-      return reformat(element, model.column_names);
-  });
-
-  populateDropdown(model.column_names);
-  $("#columns").trigger("change");
-};
-
-// Helpers
-function reformat(d, columnNames) {
-  columnNames.forEach(function(columnName) {
-    if(columnName != "date") {
-      // "y" -> 1.0
-      // "n" -> 0.0
-      // all numbers -> float
-      // everything else -> undefined
-      if(d[columnName] === "y") {
-        d[columnName] = 1.0;
-      }
-      if(d[columnName] === "n") {
-        d[columnName] = 0.0;
-      }
-      if (d[columnName] === "" || isNaN(d[columnName])) {
-        d[columnName] = undefined;
-      } else {
-        d[columnName] = +d[columnName];
-      }
-    }
-  });
-  d.date = parseDate(d.date);
-  return d;
-}
-
-function parseDate(date) {
-  return d3.time.format("%-m/%-d/%Y").parse(date);
-}
-
 var squareWindow = [.4,.6,.8,1,.8,.6,.4];
 
 // TODO: fix missing values at ends
@@ -138,7 +65,7 @@ function pickData(data, property) {
 }
 
 // Plotting the data
-function plotData(fullData, property) {
+function plotData(elementSelector, property, fullData) {
   var margin = {top: 20, right: 20, bottom: 50, left: 40},
   width = 960 - margin.left - margin.right,
   height = 300 - margin.top - margin.bottom;
@@ -162,7 +89,7 @@ function plotData(fullData, property) {
   .ticks(10);
 
   d3.select("svg").remove();
-  var svg = d3.select(".graph").append("svg")
+  var svg = d3.select(elementSelector).append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -222,20 +149,85 @@ function plotData(fullData, property) {
 }
 
 
-// DOM handling
-function populateDropdown(columnNames) {
-  var $columnsDropdown = $("#columns");
+(QsVis = function(config){
+  this.config = config;
+  this.fetcher = new datasetFetcher({
+      api: gapi,
+      config: config,
+      credentials: credentials
+  });
+}).prototype = {
 
-  columnNames.forEach(function(columnName) {
-    $columnsDropdown.append(
-      $("<option></option>").
-      attr("value", columnName).
-      text(columnName)
-    );
-  })
+  // XXX untested
+  fetchData: function(options) {
+    var self = this;
+    this.fetcher.fetchDataset({
+      callback: function(dataset) {
+        self.parseSpreadsheetData.bind(self)(dataset);
+        options.success();
+      }
+    });
+  },
 
-  $columnsDropdown.change(function(event) {
-    var selectedColumn = $(event.target).val();
-    plotData(allData, selectedColumn);
-  })
-};
+  fetchCachedData: function(options) {
+    this.parseSpreadsheetData.bind(this)(cachedData);
+    options.success();
+  },
+
+  plotColumn: function(elementSelector, selectedColumn) {
+    plotData(elementSelector, selectedColumn, this.allData);
+  },
+
+  // TODO: this should be private
+  // Parse and process a dataset
+  // turns a spreadsheet into an array of objects (rows).
+  // The keys of each row are "date" plus all the column names
+  parseSpreadsheetData: function(dataset) {
+    var self = this;
+    var model = new Tabletop.Model( { data: dataset,
+                                      parseNumbers: false,
+                                      postProcess: false,
+                                      tabletop: undefined } );
+
+    // save off the column names
+    this.columnNames = model.column_names;
+
+    // Reformat the data
+    this.allData = model.elements.map(function(element) {
+      return self.reformat(element, self.columnNames);
+    });
+  },
+
+  // Helpers
+  //
+  // date -> d3 parsed date
+  // "y" -> 1.0
+  // "n" -> 0.0
+  // all numbers -> float
+  // everything else -> undefined
+  reformat: function(d, columnNames) {
+    columnNames.forEach(function(columnName) {
+      if(columnName != "date") {
+        if(d[columnName] === "y") {
+          d[columnName] = 1.0;
+        }
+        if(d[columnName] === "n") {
+          d[columnName] = 0.0;
+        }
+        if (d[columnName] === "" || isNaN(d[columnName])) {
+          d[columnName] = undefined;
+        } else {
+          d[columnName] = +d[columnName];
+        }
+      }
+    });
+    d.date = this.parseDate(d.date);
+    return d;
+  },
+
+  parseDate: function (date) {
+    return d3.time.format("%-m/%-d/%Y").parse(date);
+  },
+
+  'The' : 'End'
+}
