@@ -7,6 +7,7 @@
       success: this.fetchCompleteHandler.bind(this)
     }); // dataset stored internally.
   } else {
+    // TODO: fetcher (or null fetcher) should be passed in
     // TODO: wait for gapiClientDidLoad before fetching data
     // this.qsVis.fetchData({
      // success: this.fetchCompleteHandler

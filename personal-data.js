@@ -88,7 +88,7 @@ function plotData(elementSelector, property, fullData) {
   .orient("left")
   .ticks(10);
 
-  d3.select("svg").remove();
+  d3.select(elementSelector).select("svg").remove();
   var svg = d3.select(elementSelector).append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
@@ -139,7 +139,7 @@ function plotData(elementSelector, property, fullData) {
   // Draw dots
   svg.selectAll(".dot")
     .data(data.filter(function(d) {
-      return d.value;
+      return d.value != undefined;
     }))
     .enter().append("circle")
     .attr("class", "dot")
