@@ -149,16 +149,10 @@ function plotData(elementSelector, property, fullData) {
 }
 
 
-(QsVis = function(config){
-  this.config = config;
-  this.fetcher = new datasetFetcher({
-      api: gapi,
-      config: config,
-      credentials: credentials
-  });
+(QsVis = function(fetcher){
+  this.fetcher = fetcher;
 }).prototype = {
 
-  // XXX untested
   fetchData: function(options) {
     var self = this;
     this.fetcher.fetchDataset({
@@ -167,11 +161,6 @@ function plotData(elementSelector, property, fullData) {
         options.success();
       }
     });
-  },
-
-  fetchCachedData: function(options) {
-    this.parseSpreadsheetData.bind(this)(cachedData);
-    options.success();
   },
 
   plotColumn: function(elementSelector, selectedColumn) {

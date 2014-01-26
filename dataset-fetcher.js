@@ -1,3 +1,10 @@
+function cachedDatasetFetcher() {
+  this.fetchDataset = function(options) {
+    options.callback(cachedData);
+  }
+};
+
+// XXX not fully tested
 function datasetFetcher(options) {
   this.api = options.api;
   this.config = options.config;
@@ -5,8 +12,8 @@ function datasetFetcher(options) {
 
   var self = this;
 
-  this.fetchDataset = function(callback) {
-    this.callback = callback;
+  this.fetchDataset = function(options) {
+    this.callback = options.callback;
     this.api.client.setApiKey(this.credentials.apiKey);
     window.setTimeout(checkAuth,1);
   };

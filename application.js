@@ -1,18 +1,23 @@
 (QsVisApp = function(config){
   this.config = config;
-  this.qsVis = new QsVis(config); // TODO: strip out useCachedData before passing in
+  var fetcher;
 
+  // TODO credentials should be passed in to QsVisApp
   if(config.useCachedData) {
-    this.qsVis.fetchCachedData({
-      success: this.fetchCompleteHandler.bind(this)
-    }); // dataset stored internally.
+    fetcher = new cachedDatasetFetcher();
   } else {
-    // TODO: fetcher (or null fetcher) should be passed in
-    // TODO: wait for gapiClientDidLoad before fetching data
-    // this.qsVis.fetchData({
-     // success: this.fetchCompleteHandler
-    // }); // dataset stored internally.
+    fetcher = new datasetFetcher({
+      api: gapi,
+      config: config,  // TODO strip out useCachedData
+      credentials: credentials
+    });
   }
+
+  this.qsVis = new QsVis(fetcher);
+
+  this.qsVis.fetchData({
+    success: this.fetchCompleteHandler.bind(this)
+  }); // dataset stored internally.
 }).prototype = {
   fetchCompleteHandler: function() {
     this.columnNames = this.qsVis.columnNames;
