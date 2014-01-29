@@ -44,22 +44,27 @@ body {
 <script type="text/javascript" src="vendor/d3.v3.js"></script>
 <script type="text/javascript" src="vendor/jquery-latest.js"></script>
 <script type="text/javascript" src="vendor/tabletop.js"></script>
+<script type="text/javascript" src="vendor/underscore.js"></script>
+<script type="text/javascript" src="vendor/backbone.js"></script>
 <script type="text/javascript" src="credentials.js"></script>
-<script type="text/javascript" src="cached-data.js"></script>
-<script type="text/javascript" src="cached-test-data.js"></script>
+<script type="text/javascript" src="data/cached-data.js"></script>
+<script type="text/javascript" src="data/cached-test-data.js"></script>
 
 <script type="text/javascript" src="application.js"></script>
-<script type="text/javascript" src="dataset-fetcher.js"></script>
-<script type="text/javascript" src="personal-data.js"></script>
+<script type="text/javascript" src="qs-vis/dataset-fetcher.js"></script>
+<script type="text/javascript" src="qs-vis/personal-data.js"></script>
 
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=gapiClientDidLoad"></script>
 
 <br/>
 <button id="authButton" style="visibility: hidden">Authorize</button>
+
+<div id="chart-container">
 <select id="columns">
 </select>
 
 <div class="graph"></div>
+</div>
 
 </body>
 </html>

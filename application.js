@@ -1,3 +1,35 @@
+var ChartView = Backbone.View.extend({
+  initialize: function(options) {
+    this.qsVis = options.qsVis;
+  },
+
+  render: function() {
+    this.columnNames = this.qsVis.columnNames;
+    this.populateDropdown(this.columnNames);
+    this.$el.find("#columns").trigger("change");
+  },
+
+  // DOM handling
+  populateDropdown: function(columnNames) {
+    var self = this;
+    var $columnsDropdown = $("#columns");
+
+    columnNames.forEach(function(columnName) {
+      $columnsDropdown.append(
+        $("<option></option>").
+        attr("value", columnName).
+        text(columnName)
+      );
+    })
+
+    // Move this to events
+    $columnsDropdown.change(function(event) {
+      var selectedColumn = $(event.target).val();
+      self.qsVis.plotColumn(".graph", selectedColumn);
+    })
+  },
+});
+
 (QsVisApp = function(config){
   this.config = config;
   var fetcher;
@@ -14,37 +46,18 @@
   }
 
   this.qsVis = new QsVis(fetcher);
+  this.chartView = new ChartView({
+    el: "#chart-container",
+    qsVis: this.qsVis
+  });
 
   this.qsVis.fetchData({
     success: this.fetchCompleteHandler.bind(this)
   }); // dataset stored internally.
 }).prototype = {
   fetchCompleteHandler: function() {
-    this.columnNames = this.qsVis.columnNames;
-    this.populateDropdown(this.columnNames);
-    $("#columns").trigger("change");
-  },
-
-  // DOM handling
-  populateDropdown: function(columnNames) {
-    var self = this;
-    var $columnsDropdown = $("#columns");
-
-    columnNames.forEach(function(columnName) {
-      $columnsDropdown.append(
-        $("<option></option>").
-        attr("value", columnName).
-        text(columnName)
-      );
-    })
-
-    $columnsDropdown.change(function(event) {
-      var selectedColumn = $(event.target).val();
-      self.qsVis.plotColumn(".graph", selectedColumn);
-    })
-  },
-
-  'The' : 'End'
+    this.chartView.render();
+  }
 }
 
 

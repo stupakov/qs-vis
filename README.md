@@ -7,7 +7,6 @@
 
 ### TODO
 - multiple independent graphs, each can pick their own dataset
-- fix plotting of dots for zero values
 - scatter plot of 2 data streams
 - filter data by days of week
 - move filter into an object
