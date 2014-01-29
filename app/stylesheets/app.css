@@ -1,0 +1,25 @@
+body {
+  background-color: white;
+}
+
+.button {
+  margin: 10px;
+  padding: 10px;
+  background-color: #669;
+  text-decoration: none;
+  color: white;
+  border: 1px solid #99C;
+  display: inline-block;
+}
+
+.button:hover {
+  background-color: #88B;
+}
+
+.chart-container {
+  margin: 10px;
+  padding: 10px;
+  background-color: #EFE;
+  border: 1px solid #ACA;
+  width: 1000px;
+}

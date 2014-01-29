@@ -6,7 +6,8 @@
 - plots graph of chosen dataset (raw data + fit line)
 
 ### TODO
-- multiple independent graphs, each can pick their own dataset
+- existing charts should not re-render when adding more charts
+- move templates into separate files?
 - scatter plot of 2 data streams
 - filter data by days of week
 - move filter into an object

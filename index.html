@@ -2,42 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<style>
-body {
-  background-color: white;
-}
-
-.axis {
-  fill: black;
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.line {
-  fill: none;
-  stroke: lightblue;
-  stroke-width: 0.75px;
-}
-
-.redline {
-  fill: none;
-  stroke: red;
-  stroke-width: 1.5px;
-}
-
-.dot {
-  fill: lightblue;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-</style>
+  <link rel="stylesheet" type="text/css" href="app/stylesheets/qs.css">
+  <link rel="stylesheet" type="text/css" href="app/stylesheets/app.css">
 </head>
 
 <body>
@@ -58,16 +24,18 @@ body {
 
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=gapiClientDidLoad"></script>
 
-<br/>
-<button id="authButton" style="visibility: hidden">Authorize</button>
+<script type="text/template" id="charts-view">
+  <a class="button add-chart" href="#">Add Chart</a>
+  <br/>
+</script>
 
-<div id="charts-container">
-  <div id="chart-container">
-    <select id="columns"></select>
+<script type="text/template" id="chart-view">
+    <select class="columns"></select>
     <div class="graph"></div>
-  </div>
-</div>
+</script>
 
+  <button id="authButton" style="display:none">Authorize</button>
+  <div id="charts-container"></div>
 </body>
 </html>
 
