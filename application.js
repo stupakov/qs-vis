@@ -3,16 +3,17 @@ var ChartView = Backbone.View.extend({
     this.qsVis = options.qsVis;
   },
 
+  events: {
+    "change #columns" : "columnSelected"
+  },
+
   render: function() {
-    this.columnNames = this.qsVis.columnNames;
-    this.populateDropdown(this.columnNames);
+    this.populateDropdown(this.qsVis.columnNames);
     this.$el.find("#columns").trigger("change");
   },
 
-  // DOM handling
   populateDropdown: function(columnNames) {
-    var self = this;
-    var $columnsDropdown = $("#columns");
+    var $columnsDropdown = this.$el.find("#columns");
 
     columnNames.forEach(function(columnName) {
       $columnsDropdown.append(
@@ -21,13 +22,13 @@ var ChartView = Backbone.View.extend({
         text(columnName)
       );
     })
-
-    // Move this to events
-    $columnsDropdown.change(function(event) {
-      var selectedColumn = $(event.target).val();
-      self.qsVis.plotColumn(".graph", selectedColumn);
-    })
   },
+
+  columnSelected: function(event) {
+    var selectedColumn = $(event.target).val();
+    var graphElement = this.$el.find(".graph").get(0);
+    this.qsVis.plotColumn(graphElement, selectedColumn);
+  }
 });
 
 (QsVisApp = function(config){
