@@ -50,7 +50,9 @@ body {
 <script type="text/javascript" src="data/cached-data.js"></script>
 <script type="text/javascript" src="data/cached-test-data.js"></script>
 
-<script type="text/javascript" src="application.js"></script>
+<script type="text/javascript" src="app/views/chart-view.js"></script>
+<script type="text/javascript" src="app/views/charts-view.js"></script>
+<script type="text/javascript" src="app/application.js"></script>
 <script type="text/javascript" src="qs-vis/dataset-fetcher.js"></script>
 <script type="text/javascript" src="qs-vis/personal-data.js"></script>
 
@@ -59,9 +61,11 @@ body {
 <br/>
 <button id="authButton" style="visibility: hidden">Authorize</button>
 
-<div id="chart-container">
-  <select id="columns"></select>
-  <div class="graph"></div>
+<div id="charts-container">
+  <div id="chart-container">
+    <select id="columns"></select>
+    <div class="graph"></div>
+  </div>
 </div>
 
 </body>
