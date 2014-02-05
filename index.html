@@ -17,6 +17,8 @@
 <script type="text/javascript" src="data/cached-test-data.js"></script>
 
 <script type="text/javascript" src="app/views/chart-view.js"></script>
+<script type="text/javascript" src="app/views/line-chart-view.js"></script>
+<script type="text/javascript" src="app/views/scatter-chart-view.js"></script>
 <script type="text/javascript" src="app/views/charts-view.js"></script>
 <script type="text/javascript" src="app/application.js"></script>
 <script type="text/javascript" src="qs-vis/dataset-fetcher.js"></script>
@@ -25,11 +27,18 @@
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=gapiClientDidLoad"></script>
 
 <script type="text/template" id="charts-view">
-  <a class="button add-chart" href="#">Add Chart</a>
+  <a class="button add-line-chart" href="#">Add Line Chart</a>
+  <a class="button add-scatter-chart" href="#">Add Scatter Chart</a>
   <br/>
 </script>
 
-<script type="text/template" id="chart-view">
+<script type="text/template" id="line-chart-view">
+    <select class="columns"></select>
+    <div class="graph"></div>
+</script>
+
+<script type="text/template" id="scatter-chart-view">
+    <select class="columns"></select>
     <select class="columns"></select>
     <div class="graph"></div>
 </script>
