@@ -3,6 +3,7 @@ if("undefined" == typeof(App)) { App = {}; }
 App.ChartView = Backbone.View.extend({
   initialize: function(options) {
     this.qsVis = options.qsVis;
+    this.$el = options.$el;
   },
 
   events: {

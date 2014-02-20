@@ -7,53 +7,48 @@ App.ChartsView = Backbone.View.extend({
     this.template = _.template($('#charts-view').html());
 
     this.subviews = [];
-    this.addLineChart();
   },
 
   events: {
     "click .add-line-chart" : function() {
       this.addLineChart();
-      this.render();
     },
 
     "click .add-scatter-chart" : function() {
       this.addScatterChart();
-      this.render();
     }
   },
 
   addLineChart: function() {
+    var $element = $("<div class='chart-container'></div>");
+    this.$el.append($element);
+
     var subview = new App.LineChartView({
       qsVis: this.qsVis,
+      $el: $element
     });
 
     this.subviews.push(subview);
+    subview.render();
   },
 
   addScatterChart: function() {
+    var $element = $("<div class='chart-container'></div>");
+    this.$el.append($element);
+
     var subview = new App.ScatterChartView({
       qsVis: this.qsVis,
+      $el: $element
     });
 
     this.subviews.push(subview);
+    subview.render();
   },
 
   render: function() {
     this.$el.html(this.template);
-    this.renderSubviews();
+    this.addLineChart();
     return this;
-  },
-
-  // TODO: this re-renders all the charts!
-  // should leave existing charts as-is.
-  renderSubviews: function() {
-    var self = this;
-    _.each(this.subviews, function(subview) {
-      var $element = $("<div class='chart-container'></div>");
-      self.$el.append($element);
-      subview.setElement($element);
-      subview.render();
-    });
   }
 })
 
